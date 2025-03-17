@@ -36,12 +36,6 @@ class HomeView(ListView):
             published_at__isnull=False, status="active"
         ).order_by("-published_at")[:7]
         
-        context["categories"] = Category.objects.all()[:3]
-        context["tags"] = Tag.objects.all()[:12]
-        
-        context["trending_posts"] = Post.objects.filter(
-            published_at__isnull=False, status='active'
-        ).order_by("-views_count")[:3]
         
         return context
     
@@ -49,14 +43,15 @@ class HomeView(ListView):
 class AboutView(TemplateView):
     template_name = "aznews/about.html"
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        context["categories"] = Category.objects.all()[:3]
-        context["tags"] = Tag.objects.all()[:12]
-        
-        context["trending_posts"] = Post.objects.filter(
-            published_at__isnull=False, status='active'
-        ).order_by("-views_count")[:3]
-        
-        return context
+
+    
+class PostListView(ListView):
+    model = Post
+    template_name = "aznews/list/list.html"
+    context_object_name = "posts"
+    paginate_by = 1
+    
+    def get_queryset(self):
+        return Post.objects.filter(
+            published_at__isnull = False, status="active"
+        ).order_by("-published_at")
