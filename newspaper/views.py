@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from newspaper.models import Category, Post, Tag
 
 from django.utils import timezone
@@ -55,3 +55,47 @@ class PostListView(ListView):
         return Post.objects.filter(
             published_at__isnull = False, status="active"
         ).order_by("-published_at")
+        
+        
+class PostByCategoryView(ListView):
+    model = Post
+    template_name = "aznews/list/list.html"
+    context_object_name = "posts"
+    paginate_by = 1
+    
+    # to filter data we use get_queryset method
+    def get_queryset(self):
+        query = super().get_queryset()  # Post.objects.all()
+        query = query.filter(
+            published_at__isnull=False,
+            status="active",
+            category__id=self.kwargs["category_id"],
+        ).order_by("-published_at")
+        return query
+    
+    
+class PostByTagView(ListView):
+    model = Post
+    template_name = "aznews/list/list.html"
+    context_object_name = "posts"
+    paginate_by = 1
+    
+    def get_queryset(self):
+        query = super().get_queryset()
+        query = query.filter(
+            published_at__isnull=False,
+            status="active",
+            tag__id=self.kwargs["tag_id"],
+        ).order_by("-published_at")
+        return query
+    
+    
+class PostDetailView(DetailView):
+    model = Post
+    template_name = "aznews/detail/detail.html"
+    context_object_name = "post"
+
+    def get_queryset(self):
+        query = super().get_queryset()
+        query = query.filter(published_at__isnull=False, status="active")
+        return query
