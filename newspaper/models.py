@@ -46,6 +46,15 @@ class Post(TimeStampModel):
         return self.title
     
     
+class UserProfile(TimeStampModel):
+    user = models.OneToOneField("auth.User", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="user_images/%Y/%m/%d", blank=False)
+    address = models.CharField(max_length=200)
+    biography = models.TextField()
+    
+    def __str__(self):
+        return self.user.username
+    
     
 # 1 user can create M posts => M
 # 1 post can be created by 1 user => 1

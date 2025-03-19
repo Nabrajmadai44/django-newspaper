@@ -7,4 +7,8 @@ def navigation(request):
         "trending_posts": Post.objects.filter(
             published_at__isnull = False, status="active"
         ).order_by("-views_count")[:3],
+        "side_categories": Category.objects.all()[:6],
+        "popular_posts": Post.objects.filter(
+            published_at__isnull=False, status="active"
+        ).order_by("-published_at")[:5]
     }
