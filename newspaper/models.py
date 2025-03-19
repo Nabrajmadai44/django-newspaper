@@ -56,6 +56,16 @@ class UserProfile(TimeStampModel):
         return self.user.username
     
     
+class Comment(TimeStampModel):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment = models.TextField()
+    name = models.CharField(max_length=50)
+    email = models.EmailField
+    
+    def __str__(self):
+        return f"{self.email} | {self.comment[:70]}"
+    
+    
 # 1 user can create M posts => M
 # 1 post can be created by 1 user => 1
 # ForeginKey => Many side

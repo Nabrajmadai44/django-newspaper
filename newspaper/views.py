@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import ListView, TemplateView, DetailView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, TemplateView, DetailView, View
 from newspaper.models import Category, Post, Tag
+from newspaper.forms import CommentForm
 
 from django.utils import timezone
 from datetime import timedelta
@@ -123,3 +124,19 @@ class PostDetailView(DetailView):
             .first()
         )
         return context
+    
+class CommentView(View):
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        post_id = request.POST["post"]
+        if form.is_valid():
+            form.save()
+            return redirect("post-detail", post_id)
+
+        post = Post.objects.get(pk=post_id)
+        return render(
+            request,
+            "aznews/detail/detail.html",
+            {"post": post, "form": form},
+        )
+    
