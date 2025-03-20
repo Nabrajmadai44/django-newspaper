@@ -15,19 +15,19 @@
         <p>{{ post.content|truncatechars:100 }}</p>
         <ul class="blog-info-link">
             <li>
-                <a href="#"><i class="fa fa-user"></i>{{ post.tag.all|join:", "}}</a>
+                <a href="#"><i class="fa fa-tags"></i>{{ post.tag.all|join:", "}}</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-comments"></i>{{ post.author.username|lower }}</a>
+                <a href="#"><i class="fa fa-user"></i>{{ post.author.username|lower }}</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-user"></i>{{ post.category.name|title }}</a>
+                <a href="#"><i class="fa fa-paste"></i>{{ post.category.name|title }}</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-user"></i>{{ post.view_count }}</a>
+                <a href="#"><i class="fa fa-eye"></i>{{ post.views_count }} Views</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-user"></i> 0 comments </a>
+                <a href="#"><i class="fa fa-comments"></i> 0 comments </a>
             </li>
         </ul>
     </div>

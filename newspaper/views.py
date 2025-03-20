@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, DetailView, View
 from newspaper.models import Category, Post, Tag
-from newspaper.forms import CommentForm
-
+from newspaper.forms import CommentForm, ContactForm
+from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 
@@ -140,3 +140,28 @@ class CommentView(View):
             {"post": post, "form": form},
         )
     
+    
+class ContactView(View):
+    template_name = "aznews/contact.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, "Successfully submitted your query. We will contact you soon."
+            )
+            return redirect("contact")
+        else:
+            messages.error(
+                request,
+                "Cannot submit you query. Please make sure all fileds are valid.",
+            )
+            return render(
+                request,
+                self.template_name,
+                {"form": form}
+            )

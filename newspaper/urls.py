@@ -10,4 +10,5 @@ urlpatterns = [
     path("post-by-tag/<int:tag_id>/", views.PostByTagView.as_view(), name="post-by-tag"),
     path("post-detail/<int:pk>", views.PostDetailView.as_view(), name="post-detail"),
     path("comment/", views.CommentView.as_view(), name="comment"),
+    path("contact/", views.ContactView.as_view(), name="contact"),
 ]

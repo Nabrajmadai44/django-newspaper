@@ -20,7 +20,7 @@
             <a href="#"><i class="fa fa-eye"></i>{{ post.views_count }} Views</a>
          </li>
          <li>
-            <a href="#"><i class="fa fa-comments"></i> 0 comments </a>
+            <a href="#"><i class="fa fa-comments"></i>{{ post.comment_set.count }} comments </a>
          </li>
        </ul>
        {{ post.content|linebreaksbr}}

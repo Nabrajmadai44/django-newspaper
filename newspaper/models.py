@@ -66,6 +66,19 @@ class Comment(TimeStampModel):
         return f"{self.email} | {self.comment[:70]}"
     
     
+class Contact(TimeStampModel):
+    message = models.TextField()
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering = ["created_at"]
+    
+    
 # 1 user can create M posts => M
 # 1 post can be created by 1 user => 1
 # ForeginKey => Many side
